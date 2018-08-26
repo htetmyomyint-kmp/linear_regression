@@ -1,10 +1,10 @@
 import pandas as pd
-from sklearn.model_selection import train_test_split
 from sklearn import linear_model
 from sklearn import preprocessing
 
 file = 'data/IRIS.csv'
 df = pd.read_csv(file)
+test_data = pd.read_csv('data/IRIS-answer.csv')
 
 features = ['petal_length']
 target = ['species']
@@ -12,12 +12,12 @@ target = ['species']
 encoder = preprocessing.LabelEncoder()
 encoder.fit(['Iris-setosa', 'Iris-virginica', 'Iris-versicolor'])
 df['species'] = encoder.transform(df['species']);
+test_data['species'] = encoder.transform(test_data['species'])
 
-train, test = train_test_split(df, test_size=0.30)
-x_train = train[features].dropna()
-y_train = train[target].dropna()
-x_test = test[features].dropna()
-y_test = test[target].dropna()
+x_train = df[features].dropna()
+y_train = df[target].dropna()
+x_test = test_data[features].dropna()
+y_test = test_data[target].dropna()
 
 l_model = linear_model.LinearRegression()
 l_model.fit(x_train, y_train)
